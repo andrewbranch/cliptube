@@ -2,7 +2,7 @@ import chalk from 'chalk';
 import Yargs from 'yargs';
 import download from './lib/download.js';
 import interactive from './lib/interactive.js';
-import host from './lib/nativeHost.js';
+import createHost from './lib/nativeHost.js';
 import { validateYouTubeURL } from './lib/utils.js';
 
 // @ts-ignore
@@ -67,7 +67,7 @@ yargs
       url: argv.url,
       outDir: argv.outDir || urlValidation.value,
       overwrite: argv.overwrite,
-    }, host);
+    }, createHost());
   })
   .help()
   .argv;

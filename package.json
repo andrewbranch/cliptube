@@ -8,7 +8,7 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "tsc -p .",
-    "pack": "webpack && cp node_modules/ffmpeg-static/ffmpeg out/ && cp node_modules/ffprobe-static/bin/darwin/x64/ffprobe out/ && nexe index.js --cwd out -r 'ff*' -t macos-x64-v14.15.3 --name splyt"
+    "pack": "webpack && nexe index.js --cwd out -t macos-x64-v14.15.3 --name splyt"
   },
   "author": "Andrew Branch",
   "license": "MIT",
@@ -31,8 +31,7 @@
     "@types/yargs": "^16.0.0",
     "chalk": "^4.1.0",
     "cli-progress": "^3.9.0",
-    "ffmpeg-static": "^4.2.7",
-    "ffprobe-static": "^3.0.0",
+    "ffbinaries": "^1.1.4",
     "inquirer": "^8.0.0",
     "mkdirp": "^1.0.4",
     "yargs": "^16.2.0",
