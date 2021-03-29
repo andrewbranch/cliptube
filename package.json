@@ -1,6 +1,6 @@
 {
   "name": "splyt",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "Download YouTube videos and save clips",
   "type": "module",
   "module": "index.js",
