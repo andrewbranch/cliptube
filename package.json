@@ -2,12 +2,13 @@
   "name": "splyt",
   "version": "1.0.0",
   "description": "Download YouTube videos and save clips",
-  "main": "index.js",
+  "type": "module",
+  "module": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "tsc -p .",
-    "pack": "nexe index.js -r 'node_modules/ff*-static' -t macos-x64-v14.15.3"
+    "pack": "webpack && cp node_modules/ffmpeg-static/ffmpeg out/ && cp node_modules/ffprobe-static/bin/darwin/x64/ffprobe out/ && nexe index.js --cwd out -r 'ff*' -t macos-x64-v14.15.3 --name splyt"
   },
   "author": "Andrew Branch",
   "license": "MIT",
@@ -21,7 +22,9 @@
     "@types/mkdirp": "^1.0.1",
     "@types/node": "^14.14.34",
     "nexe": "^4.0.0-beta.18",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "webpack": "^5.28.0",
+    "webpack-cli": "^4.6.0"
   },
   "dependencies": {
     "@tedconf/fessonia": "^2.2.0",

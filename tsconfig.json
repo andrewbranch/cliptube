@@ -5,6 +5,7 @@
     "checkJs": true,
     "strict": true,
     "noEmit": true,
-    "types": ["node"]
+    "types": ["node"],
+    "esModuleInterop": true
   }
 }

@@ -1,9 +1,12 @@
-const chalk = require('chalk');
-const yargs = require('yargs');
-const download = require('./lib/download');
-const interactive = require('./lib/interactive');
-const host = require('./lib/nativeHost');
-const { validateYouTubeURL } = require('./lib/utils');
+import chalk from 'chalk';
+import Yargs from 'yargs';
+import download from './lib/download.js';
+import interactive from './lib/interactive.js';
+import host from './lib/nativeHost.js';
+import { validateYouTubeURL } from './lib/utils.js';
+
+// @ts-ignore
+const yargs = /** @type {typeof import('yargs')} */ (Yargs());
 
 const url = {
   type: /** @type {'string'}*/ ('string'),
