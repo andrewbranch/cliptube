@@ -5,11 +5,14 @@ import { join, dirname } from 'path';
 const config = {
   entry: './index.js',
   target: 'node',
-  mode: 'production',
+  mode: 'development',
   output: {
     path: join(dirname(fileURLToPath(import.meta.url)), 'out'),
-    filename: 'index.js'
+    filename: 'index.js',
   },
+  resolve: {
+    modules: ['vendor', 'node_modules']
+  }
 };
 
 export default config;

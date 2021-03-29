@@ -6,7 +6,7 @@ import createHost from './lib/nativeHost.js';
 import { validateYouTubeURL } from './lib/utils.js';
 
 // @ts-ignore
-const yargs = /** @type {typeof import('yargs')} */ (Yargs());
+const yargs = /** @type {typeof import('yargs')} */ (Yargs(process.argv.slice(2)));
 
 const url = {
   type: /** @type {'string'}*/ ('string'),
@@ -39,7 +39,7 @@ const downloadOptions = {
 yargs
   .scriptName('splyt')
   .usage('Tools for processing YouTube videos')
-  .command('$0', 'Launch interactive mode', {}, interactive)
+  .command('start', 'Launch interactive mode', {}, interactive)
   .command('clip <url> <clips>', 'Save clips from a video', yargs => {
     
     return yargs
@@ -69,5 +69,8 @@ yargs
       overwrite: argv.overwrite,
     }, createHost());
   })
+  .demandCommand(1, '')
+  .recommendCommands()
+  .strict()
   .help()
   .argv;
