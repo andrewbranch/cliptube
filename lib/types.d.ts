@@ -27,6 +27,12 @@ interface DownloadHandlers {
   onMerged?: () => void,
 }
 
+interface ClipHandlers extends DownloadHandlers {
+  onClipStart?: (filename: string, totalMs: number) => void,
+  onClipProgress?: (filename: string, encodedMs: number) => void,
+  onClipSaved?: (filename: string) => void,
+}
+
 interface Host {
   log: typeof console.log & { error: typeof console.error };
   net: {
@@ -37,6 +43,7 @@ interface Host {
     exists: (path: string) => Promise<boolean>;
     createWriteStream: typeof import('fs').createWriteStream;
     mkdirp: (path: string) => Promise<void>;
+    readdir: typeof import('fs').promises.readdir;
   };
   config: {
     getOutputDirectory: () => string;
