@@ -142,7 +142,7 @@
       SPLYT_PROFILE="$(splyt_detect_profile)"
       local PROFILE_INSTALL_DIR
       PROFILE_INSTALL_DIR="$(splyt_install_dir | command sed "s:^$HOME:\$HOME:")"
-      SOURCE_STR="\\n# Add splyt to \$PATH\\nexport PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\""
+      SOURCE_STR="\\n# Add splyt to \$PATH\\nexport PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\"\\n"
 
       if [ -z "${SPLYT_PROFILE-}" ] ; then
         local TRIED_PROFILE
@@ -168,7 +168,8 @@
       fi
 
       splyt_echo "=> Successfully installed splyt. Close and reopen your terminal or run the following:"
-      command printf "${SOURCE_STR}"
+      splyt_echo ""
+      splyt_echo "export PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\""
       splyt_reset
     else
       splyt_echo >&2 'You need curl or wget to install splyt'
