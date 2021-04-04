@@ -1,14 +1,14 @@
 {
-  "name": "splyt",
+  "name": "cliptube",
   "version": "0.0.2",
-  "description": "Download YouTube videos and save clips",
+  "description": "Save clips from YouTube videos",
   "type": "module",
   "module": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "tsc -p .",
-    "pack": "webpack && nexe index.js --cwd out -t macos-x64-v14.15.3 --name splyt"
+    "pack": "webpack && nexe index.js --cwd out -t macos-x64-v14.15.3 --name cliptube"
   },
   "author": "Andrew Branch",
   "license": "MIT",

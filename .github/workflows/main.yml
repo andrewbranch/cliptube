@@ -33,8 +33,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./out/splyt
-        asset_name: splyt
+        asset_path: ./out/cliptube
+        asset_name: cliptube
         asset_content_type: application/octet-stream
     # - uses: eregon/publish-release@v1
     #   env:

@@ -25,19 +25,19 @@
 
 {
 
-  splyt_has() {
+  cliptube_has() {
     type "$1" > /dev/null 2>&1
   }
 
-  splyt_echo() {
+  cliptube_echo() {
     command printf %s\\n "$*" 2>/dev/null
   }
 
-  splyt_install_dir() {
-    [ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.splyt/bin" || printf %s "${XDG_CONFIG_HOME}/splyt/bin"
+  cliptube_install_dir() {
+    [ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.cliptube/bin" || printf %s "${XDG_CONFIG_HOME}/cliptube/bin"
   }
 
-  splyt_profile_is_bash_or_zsh() {
+  cliptube_profile_is_bash_or_zsh() {
     local TEST_PROFILE
     TEST_PROFILE="${1-}"
     case "${TEST_PROFILE-}" in
@@ -50,25 +50,25 @@
     esac
   }
 
-  splyt_try_profile() {
+  cliptube_try_profile() {
     if [ -z "${1-}" ] || [ ! -f "${1}" ]; then
       return 1
     fi
-    splyt_echo "${1}"
+    cliptube_echo "${1}"
   }
 
   # Detect profile file if not specified as environment variable
   # (eg: PROFILE=~/.myprofile)
   # The echo'ed path is guaranteed to be an existing file
   # Otherwise, an empty string is returned
-  splyt_detect_profile() {
+  cliptube_detect_profile() {
     if [ "${PROFILE-}" = '/dev/null' ]; then
-      # the user has specifically requested NOT to have splyt touch their profile
+      # the user has specifically requested NOT to have cliptube touch their profile
       return
     fi
 
     if [ -n "${PROFILE}" ] && [ -f "${PROFILE}" ]; then
-      splyt_echo "${PROFILE}"
+      cliptube_echo "${PROFILE}"
       return
     fi
 
@@ -88,23 +88,23 @@
     if [ -z "$DETECTED_PROFILE" ]; then
       for EACH_PROFILE in ".profile" ".bashrc" ".bash_profile" ".zshrc"
       do
-        if DETECTED_PROFILE="$(splyt_try_profile "${HOME}/${EACH_PROFILE}")"; then
+        if DETECTED_PROFILE="$(cliptube_try_profile "${HOME}/${EACH_PROFILE}")"; then
           break
         fi
       done
     fi
 
     if [ -n "$DETECTED_PROFILE" ]; then
-      splyt_echo "$DETECTED_PROFILE"
+      cliptube_echo "$DETECTED_PROFILE"
     fi
   }
 
-  splyt_download() {
-    if splyt_has "curl"; then
+  cliptube_download() {
+    if cliptube_has "curl"; then
       curl --fail --compressed -q "$@"
-    elif splyt_has "wget"; then
+    elif cliptube_has "wget"; then
       # Emulate curl with wget
-      ARGS=$(splyt_echo "$@" | command sed -e 's/--progress-bar /--progress=bar /' \
+      ARGS=$(cliptube_echo "$@" | command sed -e 's/--progress-bar /--progress=bar /' \
                               -e 's/--compressed //' \
                               -e 's/--fail //' \
                               -e 's/-L //' \
@@ -117,78 +117,78 @@
     fi
   }
 
-  splyt_install() {
-    if splyt_has curl || splyt_has wget; then
+  cliptube_install() {
+    if cliptube_has curl || cliptube_has wget; then
       local INSTALL_DIR
-      INSTALL_DIR="$(splyt_install_dir)"
+      INSTALL_DIR="$(cliptube_install_dir)"
       local INSTALL_SOURCE
-      INSTALL_SOURCE='https://atcb.blob.core.windows.net/splyt/latest'
+      INSTALL_SOURCE='https://atcb.blob.core.windows.net/cliptube/latest'
       mkdir -p "$INSTALL_DIR"
-      if [ -f "$INSTALL_DIR/splyt" ]; then
-        splyt_echo "=> splyt is already installed in $INSTALL_DIR; downloading potential update"
+      if [ -f "$INSTALL_DIR/cliptube" ]; then
+        cliptube_echo "=> cliptube is already installed in $INSTALL_DIR; downloading potential update"
       else
-        splyt_echo "=> Downloading splyt to '$INSTALL_DIR'"
+        cliptube_echo "=> Downloading cliptube to '$INSTALL_DIR'"
       fi
-      splyt_download -s "$INSTALL_SOURCE" -o "$INSTALL_DIR/splyt" || {
-        splyt_echo >&2 "Failed to download '$INSTALL_SOURCE'"
+      cliptube_download -s "$INSTALL_SOURCE" -o "$INSTALL_DIR/cliptube" || {
+        cliptube_echo >&2 "Failed to download '$INSTALL_SOURCE'"
         return 1
       }
-      chmod a+x "$INSTALL_DIR/splyt" || {
-        splyt_echo >&2 "Failed to mark '$INSTALL_DIR/splyt' as executable"
+      chmod a+x "$INSTALL_DIR/cliptube" || {
+        cliptube_echo >&2 "Failed to mark '$INSTALL_DIR/cliptube' as executable"
         return 2
       }
 
-      local SPLYT_PROFILE
-      SPLYT_PROFILE="$(splyt_detect_profile)"
+      local CLIPTUBE_PROFILE
+      CLIPTUBE_PROFILE="$(cliptube_detect_profile)"
       local PROFILE_INSTALL_DIR
-      PROFILE_INSTALL_DIR="$(splyt_install_dir | command sed "s:^$HOME:\$HOME:")"
-      SOURCE_STR="\\n# Add splyt to \$PATH\\nexport PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\"\\n"
+      PROFILE_INSTALL_DIR="$(cliptube_install_dir | command sed "s:^$HOME:\$HOME:")"
+      SOURCE_STR="\\n# Add cliptube to \$PATH\\nexport PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\"\\n"
 
-      if [ -z "${SPLYT_PROFILE-}" ] ; then
+      if [ -z "${CLIPTUBE_PROFILE-}" ] ; then
         local TRIED_PROFILE
         if [ -n "${PROFILE}" ]; then
-          TRIED_PROFILE="${SPLYT_PROFILE} (as defined in \$PROFILE), "
+          TRIED_PROFILE="${CLIPTUBE_PROFILE} (as defined in \$PROFILE), "
         fi
-        splyt_echo "=> Profile not found. Tried ${TRIED_PROFILE-}~/.bashrc, ~/.bash_profile, ~/.zshrc, and ~/.profile."
-        splyt_echo "=> Create one of them and run this script again"
-        splyt_echo "   OR"
-        splyt_echo "=> Append the following lines to the correct file yourself:"
+        cliptube_echo "=> Profile not found. Tried ${TRIED_PROFILE-}~/.bashrc, ~/.bash_profile, ~/.zshrc, and ~/.profile."
+        cliptube_echo "=> Create one of them and run this script again"
+        cliptube_echo "   OR"
+        cliptube_echo "=> Append the following lines to the correct file yourself:"
         command printf "${SOURCE_STR}"
-        splyt_echo
+        cliptube_echo
       else
-        if splyt_profile_is_bash_or_zsh "${SPLYT_PROFILE-}"; then
+        if cliptube_profile_is_bash_or_zsh "${CLIPTUBE_PROFILE-}"; then
           BASH_OR_ZSH=true
         fi
-        if ! command grep -qc 'splyt/bin' "$SPLYT_PROFILE"; then
-          splyt_echo "=> Appending splyt source string to $SPLYT_PROFILE"
-          command printf "${SOURCE_STR}" >> "$SPLYT_PROFILE"
+        if ! command grep -qc 'cliptube/bin' "$CLIPTUBE_PROFILE"; then
+          cliptube_echo "=> Appending cliptube source string to $CLIPTUBE_PROFILE"
+          command printf "${SOURCE_STR}" >> "$CLIPTUBE_PROFILE"
         else
-          splyt_echo "=> splyt source string already in ${SPLYT_PROFILE}"
+          cliptube_echo "=> cliptube source string already in ${CLIPTUBE_PROFILE}"
         fi
       fi
 
-      splyt_echo "=> Successfully installed splyt. Close and reopen your terminal or run the following:"
-      splyt_echo ""
-      splyt_echo "export PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\""
-      splyt_reset
+      cliptube_echo "=> Successfully installed cliptube. Close and reopen your terminal or run the following:"
+      cliptube_echo ""
+      cliptube_echo "export PATH=\"${PROFILE_INSTALL_DIR}:\$PATH\""
+      cliptube_reset
     else
-      splyt_echo >&2 'You need curl or wget to install splyt'
+      cliptube_echo >&2 'You need curl or wget to install cliptube'
       exit 1
     fi
   }
 
-  splyt_reset() {
+  cliptube_reset() {
     unset -f \
-      splyt_has \
-      splyt_echo \
-      splyt_install_dir \
-      splyt_profile_is_bash_or_zsh \
-      splyt_try_profile \
-      splyt_detect_profile \
-      splyt_download \
-      splyt_install \
-      splyt_reset
+      cliptube_has \
+      cliptube_echo \
+      cliptube_install_dir \
+      cliptube_profile_is_bash_or_zsh \
+      cliptube_try_profile \
+      cliptube_detect_profile \
+      cliptube_download \
+      cliptube_install \
+      cliptube_reset
   }
 
-  splyt_install
+  cliptube_install
 }

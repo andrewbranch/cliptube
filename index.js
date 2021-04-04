@@ -37,7 +37,7 @@ const downloadOptions = {
 };
 
 yargs
-  .scriptName('splyt')
+  .scriptName('cliptube')
   .usage('Tools for processing YouTube videos')
   .command('start', 'Launch interactive mode', {}, interactive)
   .command('clip <url> <clips>', 'Save clips from a video', yargs => {

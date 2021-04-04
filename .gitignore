@@ -49,7 +49,7 @@ jspm_packages/
 *.tgz
 
 # Output of nexe
-splyt
+cliptube
 
 # dotenv environment variables file
 .env
