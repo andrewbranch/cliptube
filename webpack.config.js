@@ -5,7 +5,7 @@ import { join, dirname } from 'path';
 const config = {
   entry: './index.js',
   target: 'node',
-  mode: 'development',
+  mode: 'production',
   output: {
     path: join(dirname(fileURLToPath(import.meta.url)), 'out'),
     filename: 'index.js',

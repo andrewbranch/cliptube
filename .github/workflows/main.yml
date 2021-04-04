@@ -33,7 +33,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./out/cliptube-macos-x64
+        asset_path: ./out/bin/cliptube-macos-x64
         asset_name: cliptube-macos-x64
         asset_content_type: application/octet-stream
     - uses: eregon/publish-release@v1

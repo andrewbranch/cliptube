@@ -33,11 +33,35 @@ interface ClipHandlers extends DownloadHandlers {
   onClipSaved?: (filename: string) => void,
 }
 
+interface UpdateOptions {
+  force?: boolean;
+  shouldInstall?: (version: string, url: string, releaseNotes: string) => boolean | Promise<boolean>;
+}
+
+interface GitHubRelease {
+  tag_name: string;
+  assets: {
+    url: string;
+    name: string;
+  }[];
+}
+
+interface Assets {
+  'macos-x64': string;
+}
+
+interface Store {
+  latestVersionCheck: { time: string, version: string };
+}
+
 interface Host {
+  version: string;
   log: typeof console.log & { error: typeof console.error };
   net: {
     getYouTubeInfo: (url: string) => Promise<VideoInfo>;
     downloadYouTubeVideo: (info: VideoInfo, format: VideoFormat) => import('stream').Readable;
+    getLatestVersionInfo: () => Promise<{ version: string, assets: Assets, notes: string }>;
+    downloadUpdate: (url: string) => Promise<void>;
   };
   fs: {
     exists: (path: string) => Promise<boolean>;
@@ -47,9 +71,14 @@ interface Host {
   };
   config: {
     getOutputDirectory: () => string;
+    getStoreFilename: () => string;
   };
   ffmpeg: Pick<import('@tedconf/fessonia'), 'FFmpegCommand' | 'FFmpegInput' | 'FFmpegOutput'> & {
     ensureInstalled: (prompt?: (components: string[]) => Promise<boolean>, onProgress?: (data: { filename: string, progress: number }) => void) => Promise<Result<import('ffbinaries').DownloadResult[] | boolean>>;
+  };
+  store: {
+    get: <K extends keyof Store>(key: K) => Promise<Store[K] | undefined>;
+    set: <K extends keyof Store>(key: K, value: Store[K]) => Promise<void>;
   };
 }
 
