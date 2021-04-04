@@ -1,6 +1,6 @@
 {
   "name": "cliptube",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Save clips from YouTube videos",
   "type": "module",
   "module": "index.js",
