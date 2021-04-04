@@ -8,7 +8,7 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "check": "tsc -p .",
-    "pack": "webpack && nexe index.js --cwd out -t macos-x64-v14.15.3 --name cliptube"
+    "build:macos": "webpack && nexe index.js --cwd out -t macos-x64-v14.15.3 --name cliptube-macos-x64"
   },
   "author": "Andrew Branch",
   "license": "MIT",

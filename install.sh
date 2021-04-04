@@ -117,12 +117,22 @@
     fi
   }
 
+  cliptube_arch() {
+    printf %s 'macos-x64'
+  }
+
+  cliptube_install_source() {
+    cliptube_download -s https://api.github.com/repos/andrewbranch/cliptube/releases/latest \
+      | grep "tag_name" \
+      | awk "{print \"https://github.com/andrewbranch/cliptube/archive/\" substr(\$2, 2, length(\$2)-3) \"/cliptube-$(cliptube_arch)\"}"
+  }
+
   cliptube_install() {
     if cliptube_has curl || cliptube_has wget; then
       local INSTALL_DIR
       INSTALL_DIR="$(cliptube_install_dir)"
       local INSTALL_SOURCE
-      INSTALL_SOURCE='https://atcb.blob.core.windows.net/cliptube/latest'
+      INSTALL_SOURCE="$(cliptube_install_source)"
       mkdir -p "$INSTALL_DIR"
       if [ -f "$INSTALL_DIR/cliptube" ]; then
         cliptube_echo "=> cliptube is already installed in $INSTALL_DIR; downloading potential update"
