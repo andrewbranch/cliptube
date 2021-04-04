@@ -101,7 +101,7 @@
 
   cliptube_download() {
     if cliptube_has "curl"; then
-      curl --fail --compressed -q "$@"
+      curl -L --fail --compressed -q "$@"
     elif cliptube_has "wget"; then
       # Emulate curl with wget
       ARGS=$(cliptube_echo "$@" | command sed -e 's/--progress-bar /--progress=bar /' \
@@ -124,7 +124,7 @@
   cliptube_install_source() {
     cliptube_download -s https://api.github.com/repos/andrewbranch/cliptube/releases/latest \
       | grep "tag_name" \
-      | awk "{print \"https://github.com/andrewbranch/cliptube/archive/\" substr(\$2, 2, length(\$2)-3) \"/cliptube-$(cliptube_arch)\"}"
+      | awk "{print \"https://github.com/andrewbranch/cliptube/releases/download/\" substr(\$2, 2, length(\$2)-3) \"/cliptube-$(cliptube_arch)\"}"
   }
 
   cliptube_install() {
