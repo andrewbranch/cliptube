@@ -40,8 +40,10 @@ interface UpdateOptions {
 
 interface GitHubRelease {
   tag_name: string;
+  name: string;
+  body: string;
   assets: {
-    url: string;
+    browser_download_url: string;
     name: string;
   }[];
 }
@@ -60,7 +62,7 @@ interface Host {
   net: {
     getYouTubeInfo: (url: string) => Promise<VideoInfo>;
     downloadYouTubeVideo: (info: VideoInfo, format: VideoFormat) => import('stream').Readable;
-    getLatestVersionInfo: () => Promise<{ version: string, assets: Assets, notes: string }>;
+    getLatestVersionInfo: () => Promise<{ version: string, assets: Assets, title: string, notes: string }>;
     downloadUpdate: (url: string) => Promise<void>;
   };
   fs: {

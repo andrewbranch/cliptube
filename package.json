@@ -33,6 +33,7 @@
   "dependencies": {
     "@tedconf/fessonia": "^2.2.0",
     "@types/yargs": "^16.0.0",
+    "boxen": "^5.0.0",
     "chalk": "^4.1.0",
     "cli-progress": "^3.9.0",
     "ffbinaries": "^1.1.4",
