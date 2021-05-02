@@ -21,6 +21,6 @@ jobs:
       with:
         azcliversion: 2.22.1
         inlineScript: |
-          az storage blob upload --account-name cliptube -c bin -n install.sh -f install.sh
-          az storage blob upload --account-name cliptube -c bin -n cliptube-macos-x64 -f out/bin/cliptube-macos-x64
+          az storage blob upload --account-name cliptube --auth-mode login -c bin -n install.sh -f install.sh
+          az storage blob upload --account-name cliptube --auth-mode login -c bin -n cliptube-macos-x64 -f out/bin/cliptube-macos-x64
     - run: az logout
