@@ -11,6 +11,9 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 14
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.CLIPTUBE_UPLOADER_CREDENTIALS }}
     - name: install
       run: npm ci
     - name: build
@@ -36,3 +39,11 @@ jobs:
         asset_path: ./out/bin/cliptube-macos-x64
         asset_name: cliptube-macos-x64
         asset_content_type: application/octet-stream
+    - name: upload to Azure
+      uses: azure/CLI@v1
+      with:
+        azurecliversion: 2.22.1
+        inlineScript: |
+          az storage blob upload --account-name cliptube -c bin -n install.sh -f install.sh
+          az storage blob upload --account-name cliptube -c bin -n cliptube-macos-x64 -f out/bin/cliptube-macos-x64
+    - run: az logout
