@@ -44,6 +44,6 @@
     "mkdirp": "^1.0.4",
     "node-fetch": "^2.6.1",
     "yargs": "^16.2.0",
-    "ytdl-core": "^4.5.0"
+    "ytdl-core": "^4.8.0"
   }
 }
