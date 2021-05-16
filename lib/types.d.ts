@@ -53,8 +53,7 @@ interface Assets {
 }
 
 interface Store {
-  selfVersion: { time: string, version: string };
-  ytdlVersion: { time: string, version: string };
+  latestVersionCheck: { time: string, version: string };
 }
 
 interface Host {
@@ -82,9 +81,6 @@ interface Host {
   store: {
     get: <K extends keyof Store>(key: K) => Promise<Store[K] | undefined>;
     set: <K extends keyof Store>(key: K, value: Store[K]) => Promise<void>;
-  };
-  ytdl: {
-    ensureInstalled: (onInstall?: (version: string) => void) => Promise<boolean>;
   };
 }
 
